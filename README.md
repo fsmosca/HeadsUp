@@ -16,7 +16,7 @@ A chess engine adapter that can combine 2 engines and play as one. First engine 
 * Download headsup.exe
 * Modify headsup.cfg
 * Put headsup.cfg and headsup.exe in the same folder
-* Install headsup.exe as a uci engine in cutechess GUI
+* Install headsup.exe as a uci engine in cutechess GUI or Arena GUI
 
 ### B. Limitations
 * Cannot be used for ponder on games
