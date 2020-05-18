@@ -68,7 +68,7 @@ Elo difference: 0.0 +/- 125.4, LOS: 50.0 %, DrawRatio: 75.0 %
 ...
 ```
 
-### C. Credits
+### D. Credits
 * Kai Laskos  
 http://talkchess.com/forum3/viewtopic.php?f=2&t=73940
 
