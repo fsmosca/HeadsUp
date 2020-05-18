@@ -24,14 +24,14 @@ A chess engine adapter that can combine 2 engines and play as one. First engine 
 * Only supports blitz and movetime time control
 
 ### C. Sample run using cutechess-cli
-Headsup = Lc0 v0.25.1 blas + Stockfish 11
-* Lc0 v0.25.1 blas as first engine will be playing from move 1 to move 15.
+Headsup = Lc0 0.25.1 blas + Stockfish 11
+* Lc0 0.25.1 blas as first engine will be playing from move 1 to move 15.
 * Stockfish 11 as second engine will be playing for the rest of the game starting from move 16.
 
 Engine switching can be configured via the headsup.cfg file. Second engine can be switched by either material and move number conditions.
 
 ```
-Started game 3 of 100 (Lc0 v0.25.1 blas/Stockfish 11 vs Stockfish 11)
+Started game 3 of 100 (Lc0 0.25.1 blas/Stockfish 11 vs Stockfish 11)
 Started game 2 of 100 (Stockfish 11 vs Lc0 0.25.1 blas/Stockfish 11)
 Started game 1 of 100 (Lc0 0.25.1 blas/Stockfish 11 vs Stockfish 11)
 Finished game 3 (Lc0 0.25.1 blas/Stockfish 11 vs Stockfish 11): 1/2-1/2 {Draw by 3-fold repetition}
