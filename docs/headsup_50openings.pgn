@@ -1,0 +1,605 @@
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "1"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+
+*
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "2"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "B00"]
+[Opening "King's pawn opening"]
+
+1. e4 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "3"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A40"]
+[Opening "Queen's pawn"]
+
+1. d4 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "4"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A10"]
+[Opening "English opening"]
+
+1. c4 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "5"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A04"]
+[Opening "Reti opening"]
+
+1. Nf3 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "6"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A00"]
+[Opening "Benko's opening"]
+
+1. g3 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "7"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A01"]
+[Opening "Nimzovich-Larsen attack"]
+
+1. b3 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "8"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A02"]
+[Opening "Bird's opening"]
+
+1. f4 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "9"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A00"]
+[Opening "Van't Kruijs opening"]
+
+1. e3 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "10"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A00"]
+[Opening "Mieses opening"]
+
+1. d3 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "11"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "C20"]
+[Opening "King's pawn game"]
+
+1. e4 e5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "12"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A45"]
+[Opening "Queen's pawn game"]
+
+1. d4 Nf6 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "13"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A20"]
+[Opening "English opening"]
+
+1. c4 e5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "14"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "B20"]
+[Opening "Sicilian defence"]
+
+1. e4 c5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "15"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "C00"]
+[Opening "French defence"]
+
+1. e4 e6 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "16"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "D00"]
+[Opening "Queen's pawn game"]
+
+1. d4 d5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "17"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A00"]
+[Opening "Benko's opening"]
+
+1. g3 d5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "18"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A01"]
+[Opening "Nimzovich-Larsen attack"]
+[Variation "modern variation"]
+
+1. b3 e5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "19"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A43"]
+[Opening "Old Benoni defence"]
+
+1. d4 c5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "20"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A40"]
+[Opening "Queen's pawn"]
+
+1. d4 e6 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "21"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A15"]
+[Opening "English, 1...Nf6 (Anglo-Indian defense)"]
+
+1. c4 Nf6 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "22"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "B10"]
+[Opening "Caro-Kann defence"]
+
+1. e4 c6 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "23"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "B01"]
+[Opening "Scandinavian (centre counter) defence"]
+
+1. e4 d5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "24"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A30"]
+[Opening "English"]
+[Variation "symmetrical variation"]
+
+1. c4 c5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "25"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "B02"]
+[Opening "Alekhine's defence"]
+
+1. e4 Nf6 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "26"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A00"]
+[Opening "Van't Kruijs opening"]
+
+1. e3 e5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "27"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A13"]
+[Opening "English opening"]
+
+1. c4 e6 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "28"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A05"]
+[Opening "Reti opening"]
+
+1. Nf3 Nf6 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "30"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A00"]
+[Opening "Saragossa opening"]
+
+1. c3 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "30"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A00"]
+[Opening "Benko's opening"]
+
+1. g3 e5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "31"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A06"]
+[Opening "Reti opening"]
+
+1. Nf3 d5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "32"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A01"]
+[Opening "Nimzovich-Larsen attack"]
+[Variation "classical variation"]
+
+1. b3 d5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "33"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A02"]
+[Opening "Bird's opening"]
+
+1. f4 c5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "34"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A00"]
+[Opening "Mieses opening"]
+
+1. d3 d5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "35"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "B06"]
+[Opening "Robatsch (modern) defence"]
+
+1. e4 g6 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "36"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A03"]
+[Opening "Bird's opening"]
+
+1. f4 d5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "37"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A80"]
+[Opening "Dutch"]
+
+1. d4 f5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "38"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A02"]
+[Opening "Bird's opening"]
+
+1. f4 g6 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "39"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A00"]
+[Opening "Saragossa opening"]
+
+1. c3 Nf6 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "40"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A11"]
+[Opening "English"]
+[Variation "Caro-Kann defensive system"]
+
+1. c4 c6 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "41"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "B00"]
+[Opening "King's pawn opening"]
+
+1. e4 d6 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "42"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A40"]
+[Opening "Queen's pawn"]
+[Variation "Charlick (Englund) gambit"]
+
+1. d4 e5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "43"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A10"]
+[Opening "English"]
+[Variation "Anglo-Dutch defense"]
+
+1. c4 f5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "44"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A40"]
+[Opening "Modern defence"]
+
+1. d4 g6 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "45"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A04"]
+[Opening "Reti opening"]
+
+1. Nf3 c5 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "46"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A41"]
+[Opening "Queen's Pawn"]
+
+1. d4 d6 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "47"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A00"]
+[Opening "Benko's opening"]
+
+1. g3 Nf6 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "48"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A01"]
+[Opening "Nimzovich-Larsen attack"]
+[Variation "Indian variation"]
+
+1. b3 Nf6 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "49"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A10"]
+[Opening "English opening"]
+
+1. c4 b6 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "50"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A00"]
+[Opening "Dunst (Sleipner, Heinrichsen) opening"]
+
+1. Nc3 *
+
