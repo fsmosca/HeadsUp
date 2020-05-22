@@ -24,14 +24,17 @@ A uci chess engine adapter that can combine 2 engines and play as one. First eng
     * HIARCS Chess Explorer
     * Python Easy Chess
     
+### B. What it can do
+* You can play against it
+* You can play it against another engine on ponder off mode
 
-### B. Limitations
+### C. Limitations
 * Cannot be used for ponder on games
 * Cannot be used in infinite analysis
-* Only supports blitz and movetime time control
+* Only supports blitz and time per move time control
 * Can only use uci engines
 
-### C. Sample run using cutechess-cli
+### D. Sample run using cutechess-cli
 Headsup = Lc0 0.25.1 blas + Stockfish 11
 * Lc0 0.25.1 blas as first engine will be playing from move 1 to move 15.
 * Stockfish 11 as second engine will be playing for the rest of the game starting from move 16.
@@ -76,7 +79,7 @@ Elo difference: 0.0 +/- 125.4, LOS: 50.0 %, DrawRatio: 75.0 %
 ...
 ```
 
-### D. Credits
+### E. Credits
 * Kai Laskos  
 http://talkchess.com/forum3/viewtopic.php?f=2&t=73940
 
