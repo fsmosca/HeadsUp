@@ -8,7 +8,7 @@ A uci chess engine adapter that can combine 2 engines and play as one. First eng
 * Install python-chess 0.30.0 and up
 * Modify headsup.cfg
 * Put headsup.cfg and headsup.py in the same folder
-* Create a batch file headsup.bat
+* Create a batch file headsup.bat, see example in the repo.
     * write python.exe headsup.py
 * Install headsup.bat as a uci engine in cutechess GUI or Arena GUI
 
