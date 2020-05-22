@@ -1,5 +1,5 @@
 # HeadsUp
-A chess engine adapter that can combine 2 engines and play as one. First engine may play in the middle and the other engine may continue to play for the rest of the game.
+A uci chess engine adapter that can combine 2 engines and play as one. First engine may play in the middle and the other engine may continue to play for the rest of the game.
 
 ### A. Create a uci engine from 2 actual uci chess engines
 
@@ -16,12 +16,20 @@ A chess engine adapter that can combine 2 engines and play as one. First engine 
 * Download headsup.exe
 * Modify headsup.cfg
 * Put headsup.cfg and headsup.exe in the same folder
-* Install headsup.exe as a uci engine in cutechess GUI or Arena GUI
+* Install headsup.exe as a uci engine on the following tested GUI.  
+    * Cutechess
+    * Arena
+    * Banksia
+    * Winboard
+    * HIARCS Chess Explorer
+    * Python Easy Chess
+    
 
 ### B. Limitations
 * Cannot be used for ponder on games
 * Cannot be used in infinite analysis
 * Only supports blitz and movetime time control
+* Can only use uci engines
 
 ### C. Sample run using cutechess-cli
 Headsup = Lc0 0.25.1 blas + Stockfish 11
