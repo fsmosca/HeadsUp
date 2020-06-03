@@ -2,49 +2,191 @@
 headsup.py
 
 Needed:
-    Python 3.7 and up
+Python 3.8 and up
 
-Requirements
-    Python-chess 0.31.1
+Requirements:
+See requirements.txt
 """
 
 
+import queue
 import sys
+import subprocess
+import threading
 import configparser
 import logging
 from pathlib import Path
 
 import chess
-import chess.engine
 
 
 APP_NAME = 'HeadsUp'
-APP_VER = '0.1'
+APP_VER = 'v1.0'
 APP_AUTHOR = 'Ferdy'
-STARTPOS = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
-MATE_SCORE = 32000
+
+
+class ChessAI:
+    def __init__(self, engine_file):
+        self.engine_file = engine_file
+        self.__engine__ = self.__engine_process__()
+        self.option = self.engine_options()
+        self.engine_name = self.name()
+
+    def __engine_process__(self):
+        return subprocess.Popen(self.engine_file, stdin=subprocess.PIPE,
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.STDOUT,
+                                universal_newlines=True, bufsize=1,
+                                creationflags=subprocess.CREATE_NO_WINDOW)
+
+    def engine_options(self):
+        engine_option = []
+        self.send('uci')
+        for eline in iter(self.__engine__.stdout.readline, ''):
+            line = eline.strip()
+            if line.startswith('option name '):
+                sp = line.split('option name ')[1]
+                name = sp.split('type')[0].strip()
+                engine_option.append(name)
+            if 'uciok' in line:
+                break
+
+        return engine_option
+
+    def name(self):
+        idname = None
+        self.send('uci')
+        for eline in iter(self.__engine__.stdout.readline, ''):
+            line = eline.strip()
+            if 'id name' in line:
+                idname = line.split('id name ')[1]
+            if 'uciok' in line:
+                break
+
+        return idname
+
+    def author(self):
+        idauthor = None
+        self.send('uci')
+        for eline in iter(self.__engine__.stdout.readline, ''):
+            line = eline.strip()
+            if 'id author' in line:
+                idauthor = line.split('id author ')[1]
+            if 'uciok' in line:
+                break
+
+        return idauthor
+
+    def uci(self):
+        is_show_lines = False
+        self.send('uci')
+        for eline in iter(self.__engine__.stdout.readline, ''):
+            if is_show_lines:
+                self.console_print(eline)
+            if 'uciok' in eline:
+                break
+
+    def ucinewgame(self):
+        self.send('ucinewgame')
+
+    def isready(self):
+        self.send('isready')
+        for eline in iter(self.__engine__.stdout.readline, ''):
+            self.console_print(eline)
+            if 'readyok' in eline:
+                logging.info(f'{self.engine_name} sent readyok')
+                break
+
+    def position(self, command):
+        self.send(command)
+
+    def stop(self):
+        self.send('stop')
+
+        for eline in iter(self.__engine__.stdout.readline, ''):
+            self.console_print(eline)
+            if 'bestmove ' in eline:
+                break
+
+    def ponderhit(self, thr_event):
+        self.send('ponderhit')
+
+        for eline in iter(self.__engine__.stdout.readline, ''):
+            self.console_print(eline)
+            if 'bestmove ' in eline:
+                break
+
+    def go(self, command):
+        self.send(command)
+
+        for eline in iter(self.__engine__.stdout.readline, ''):
+            self.console_print(eline)
+            if 'bestmove ' in eline:
+                break
+
+    def go_infinite(self, command, thr_event):
+        self.send(command)
+
+        while not thr_event.isSet():
+            for eline in iter(self.__engine__.stdout.readline, ''):
+                if thr_event.wait(0.01):
+                    break
+                self.console_print(eline)
+
+    def go_ponder(self, command, thr_event):
+        self.send(command)
+
+        while not thr_event.is_set():
+            for eline in iter(self.__engine__.stdout.readline, ''):
+                if thr_event.wait(0.01):
+                    break
+                self.console_print(eline)
+
+    def console_print(self, msg):
+        print(f'{msg.rstrip()}')
+        sys.stdout.flush()
+
+    def setoption(self, command):
+        self.send(command)
+
+    def quit(self):
+        self.send('quit')
+        logging.info(f'{self.engine_name} received quit.')
+
+    def send(self, command):
+        self.__engine__.stdin.write(f'{command}\n')
 
 
 def get_piece_value(board):
+    """
+    Returns total piece value on the board except kings and pawns.
+    Q = 9, R = 5, B = N = 3
+
+    :param board: a python-chess board
+    :return: piece values
+    """
     epd = board.epd()
     p = epd.split()[0]
 
-    wp = p.count('P')
     wn = p.count('N')
     wb = p.count('B')
     wr = p.count('R')
     wq = p.count('Q')
 
-    bp = p.count('p')
     bn = p.count('n')
     bb = p.count('b')
     br = p.count('r')
     bq = p.count('q')
 
-    return 3*(wn+wb+bn+bb) + 5*(wr+br) + 9*(wq+bq), wp+bp
+    return 3*(wn+wb+bn+bb) + 5*(wr+br) + 9*(wq+bq)
 
 
 def get_move_list(pos_line):
+    """
+    :param pos_line: e.g. position startpos moves e2e4 or
+    position [FEN] moves e2e4
+    :return: a list of moves
+    """
     a = pos_line.split()
     move_index = a.index('moves')
     moves = a[move_index+1:]
@@ -55,6 +197,10 @@ def get_move_list(pos_line):
 
 
 def get_fen(pos_line):
+    """
+    :param pos_line: e.g. position [FEN]
+    :return: FEN
+    """
     fen = pos_line.rstrip().split()
     fen = fen[2:8]
     fen = ' '.join(fen)
@@ -63,104 +209,57 @@ def get_fen(pos_line):
     return fen
 
 
-def get_movetime(line):
-    return [int(line.strip().split()[2].strip())]
+def engine_loop(engine, name, thr_event, que):
+    while True:
+        command = que.get()
 
+        if command.startswith('position '):
+            engine.position(command)
+            logging.info(f'{name} received {command}')
 
-def get_wtime_btime(line):
-    """
+        elif command == 'go infinite':
+            engine.go_infinite(command, thr_event)
+            logging.info(f'{name} received {command}')
 
-    :param line: e.g. 'go wtime 1000 btime 1000 winc 100 binc 100'
-    :return: a list of time values
-    """
-    tc_info = line.strip()
-    logging.info(tc_info)
+        elif command.startswith('go ponder'):
+            engine.go_ponder(command, thr_event)
+            logging.info(f'{name} received {command}')
 
-    is_reverse = True if tc_info.startswith('go btime ') else False
+        elif (command.startswith('go movetime ')
+              or command.startswith('go wtime ')):
+            engine.go(command)
+            logging.info(f'{name} received {command}')
 
-    if is_reverse:
-        btime = int(tc_info.split()[2].strip())
-        wtime = int(tc_info.split()[4].strip())
+        elif command == 'stop':
+            engine.stop()
+            logging.info(f'{name} received {command}')
 
-        # Todo: to be checked if binc is first and winc is second
-        binc = int(tc_info.split()[6].strip())
-        winc = int(tc_info.split()[8].strip())
-    else:
-        wtime = int(tc_info.split()[2].strip())
-        btime = int(tc_info.split()[4].strip())
-        winc = int(tc_info.split()[6].strip())
-        binc = int(tc_info.split()[8].strip())
+        elif command == 'ponderhit':
+            engine.ponderhit(thr_event)
+            logging.info(f'{name} received {command}')
 
-    logging.info(f'wtime: {wtime}, btime: {btime}, winc: {winc}, binc: {binc}')
+        elif command == 'isready':
+            engine.isready()
+            logging.info(f'{name} received {command}')
 
-    return [wtime, btime, winc, binc]
+        elif 'setoption ' in command:
+            engine.setoption(command)
+            logging.info(f'{name} received {command}')
 
+        elif command == 'uci':
+            engine.uci()
+            logging.info(f'{name} received {command}')
 
-def search(engine, eng_label, board, tc_info):
-    """
-    Returns best move from a given board position by engine engine.
+        elif command == 'ucinewgame':
+            engine.ucinewgame()
+            logging.info(f'{name} received {command}')
 
-    Supported time control is time per move and Fischer.
-
-    :param engine: the engine used to search for best move
-    :param eng_label: engine name
-    :param board: the position to evaluate
-    :param tc_info: a list of [movetime] or [wtime, btime, winc, binc]
-    :return: bm
-    """
-    # Divide time by 1000 because python-chess is using time in seconds.
-    if len(tc_info) > 1:
-        limit = chess.engine.Limit(white_clock=tc_info[0]/1000,
-                                   black_clock=tc_info[1]/1000,
-                                   white_inc=tc_info[2]/1000,
-                                   black_inc=tc_info[3]/1000)
-    else:
-        limit = chess.engine.Limit(time=tc_info[0]/1000)
-
-    result = engine.play(board, limit, info=chess.engine.Info.ALL)
-    bm = result.move
-
-    try:
-        if result.info['score'].is_mate():
-            score = result.info['score'].relative.score(mate_score=MATE_SCORE)
-        else:
-            score = result.info['score'].relative.score()
-    except KeyError as err:
-        score = 0
-        logging.info(err)
-
-    try:
-        depth = result.info['depth']
-    except KeyError as err:
-        depth = 1
-        logging.info(err)
-
-    try:
-        tim = int(result.info['time'] * 1000)
-    except KeyError as err:
-        tim = 1
-        logging.info(err)
-
-    try:
-        nps = result.info['nps']
-    except KeyError as err:
-        nps = 1
-        logging.info(err)
-
-    try:
-        uci_pv = ' '.join([str(m) for m in result.info['pv']])
-    except KeyError as err:
-        uci_pv = ''
-        logging.info(err)
-
-    print(f'info string search info from {eng_label}')
-    print(f'info depth {depth} score cp {score} time {tim} '
-          f'nps {nps} pv {uci_pv}')
-
-    return bm
+        elif command == 'quit':
+            break
 
 
 def main():
+    print(f'info string {APP_NAME} {APP_VER} a uci engine adapter.')
     cfg_file = 'headsup.cfg'
     board = chess.Board()
 
@@ -168,32 +267,31 @@ def main():
     move_number_switch = 0  # Use engine2
 
     # Check headsup.cfg in the same dir with headsup.py or headsup.exe
-    config_file_path = Path(cfg_file)
-    if not config_file_path.is_file():
+    config_file = Path(cfg_file)
+    if not config_file.is_file():
         print(f'{cfg_file} file is required to run {APP_NAME}! Exiting ...')
         sys.exit(1)
 
-    is_logging = False
-    engine1_file, engine2_file = None, None
+    engine1_file, engine2_file, is_logging = None, None, False
 
-    # Read config file for the engine path/filenames and headsup option
+    # Section name is read as uppercase, name and value as lowercase
     parser = configparser.ConfigParser()
-    parser.read('headsup.cfg')
+    parser.read(cfg_file)
     for section_name in parser.sections():
         for name, value in parser.items(section_name):
-            if section_name.lower() == 'engine1':
+            if section_name == 'ENGINE1':
                 if name == 'enginefile':
                     engine1_file = value
-            elif section_name.lower() == 'engine2':
+            elif section_name == 'ENGINE2':
                 if name == 'enginefile':
                     engine2_file = value
             elif section_name.lower() == 'headsup option':
-                if name.lower() == 'piece_value_switch':
+                if name == 'piece_value_switch':
                     piece_value_switch = int(value)
-                elif name.lower() == 'move_number_switch':
+                elif name == 'move_number_switch':
                     move_number_switch = int(value)
-                elif name.lower() == 'log':
-                    is_logging = True if value.lower() == 'true' else False
+                elif name == 'log':
+                    is_logging = True if value == 'true' else False
 
     if is_logging:
         logging.basicConfig(
@@ -208,61 +306,84 @@ def main():
         logging.info('engine2 is missing.')
         sys.exit(1)
 
-    engine1 = chess.engine.SimpleEngine.popen_uci(engine1_file)
-    engine2 = chess.engine.SimpleEngine.popen_uci(engine2_file)
+    engine1 = ChessAI(engine1_file)
+    name1 = engine1.name()
 
-    engine1_id_name = engine1.id['name']
-    engine2_id_name = engine2.id['name']
+    engine2 = ChessAI(engine2_file)
+    name2 = engine2.name()
 
-    # Get engine option names
-    opt_name_engine_1 = [opt.lower() for opt in engine1.options]
-    opt_name_engine_2 = [opt.lower() for opt in engine2.options]
-
-    # Read config file to set engine options
+    # Set engine options
     parser = configparser.ConfigParser()
-    parser.read('headsup.cfg')
+    parser.read(cfg_file)
     for section_name in parser.sections():
         for name, value in parser.items(section_name):
-            if section_name.lower() == 'engine1':
-                if name.lower() in opt_name_engine_1:
-                    engine1.configure({name: value})
-            elif section_name.lower() == 'engine2':
-                if name.lower() in opt_name_engine_2:
-                    engine2.configure({name: value})
+            if section_name == 'ENGINE1':
+                if name in [opt.lower() for opt in engine1.option]:
+                    engine1.setoption(f'setoption name {name} value {value}')
+                    logging.info(f'setoption name {name} '
+                                 f'value {value} for {name1}')
+            elif section_name == 'ENGINE2':
+                if name in [opt.lower() for opt in engine2.option]:
+                    engine2.setoption(f'setoption name {name} value {value}')
+                    logging.info(f'setoption name {name} '
+                                 f'value {value} for {name2}')
+
+    que1 = queue.Queue()
+    thr_event1 = threading.Event()
+    thr1 = threading.Thread(target=engine_loop, args=(
+        engine1, name1, thr_event1, que1), daemon=True)
+    thr1.start()
+
+    que2 = queue.Queue()
+    thr_event2 = threading.Event()
+    thr2 = threading.Thread(target=engine_loop, args=(
+        engine2, name2, thr_event2, que2), daemon=True)
+    thr2.start()
+    is_engine1 = True
 
     while True:
-        command = input('')
-        command = command.strip()
+        command = input('').strip()
 
         if command == 'uci':
             print(f'id name {APP_NAME} {APP_VER}')
             print(f'id author {APP_AUTHOR}')
-            print(f'info string engine1 is {engine1_id_name}')
-            print(f'info string engine2 is {engine2_id_name}')
+            print('option name Ponder type check default false')
+            print('option name MultiPV type spin default 1 min 1 max 500')
             print('uciok')
 
-        elif command == 'isready':
-            print('readyok')
-
         elif command == 'ucinewgame':
-            print(f'info string received {command}')
+            if is_engine1:
+                thr_event1.clear()
+                que1.put(command)
+            else:
+                thr_event2.clear()
+                que2.put(command)
 
-        elif command == 'stop':
-            print(f'info string received {command}')
+        elif command == 'isready':
+            if is_engine1:
+                thr_event1.clear()
+                que1.put(command)
+            else:
+                thr_event2.clear()
+                que2.put(command)
 
         elif command == 'quit':
-            logging.info(f'info string quit {engine1_id_name}')
-            engine1.quit()
+            if is_engine1:
+                que1.put(command)
+            else:
+                que2.put(command)
+            break
 
-            logging.info(f'info string quit {engine2_id_name}')
-            engine2.quit()
+        elif command == 'ponderhit':
+            if is_engine1:
+                thr_event1.set()
+                que1.put(command)
+            else:
+                thr_event2.set()
+                que2.put(command)
 
-            if is_logging:
-                logging.shutdown()
-
-            return
-
-        elif 'position ' in command:
+        elif command.startswith('position '):
+            # Update board to get material and check to switch engine.
             if 'startpos' in command:
                 board = chess.Board()
 
@@ -275,37 +396,70 @@ def main():
                 for m in move_list:
                     board.push(chess.Move.from_uci(m))
 
-        elif 'go movetime' in command:
-            tc_info = get_movetime(command)
+            piece_value = get_piece_value(board)
+            logging.info(f'piece value: {piece_value}')
+            full_move_number = board.fullmove_number
+            logging.info(f'full move number: {full_move_number}')
+            logging.info(f'playing as {"white" if board.turn else "black"}')
 
-            piece_value, _ = get_piece_value(board)
-            fmvn = board.fullmove_number
-            logging.info(f'fmvn: {fmvn}')
-
-            if fmvn < move_number_switch and piece_value > piece_value_switch:
-                bm = search(engine1, engine1_id_name, board, tc_info)
+            if (full_move_number < move_number_switch
+                    and piece_value > piece_value_switch):
+                is_engine1 = True
             else:
-                bm = search(engine2, engine2_id_name, board, tc_info)
+                is_engine1 = False
 
-            print(f'bestmove {bm}')
-
-        elif 'go wtime ' in command or 'go btime ' in command:
-            tc_info = get_wtime_btime(command)
-
-            piece_value, _ = get_piece_value(board)
-            fmvn = board.fullmove_number
-            logging.info(f'fmvn: {fmvn}')
-
-            if fmvn < move_number_switch and piece_value > piece_value_switch:
-                bm = search(engine1, engine1_id_name, board, tc_info)
+            if is_engine1:
+                que1.put(command)
             else:
-                bm = search(engine2, engine2_id_name, board, tc_info)
+                que2.put(command)
 
-            print(f'bestmove {bm}')
+        elif command == 'go infinite':
+            if is_engine1:
+                thr_event1.clear()
+                que1.put(command)
+            else:
+                thr_event2.clear()
+                que2.put(command)
+
+        elif command.startswith('go ponder'):
+            if is_engine1:
+                thr_event1.clear()
+                que1.put(command)
+            else:
+                thr_event2.clear()
+                que2.put(command)
+
+        elif (command.startswith('go movetime ')
+              or command.startswith('go wtime')):
+            if is_engine1:
+                thr_event1.clear()
+                que1.put(command)
+            else:
+                thr_event2.clear()
+                que2.put(command)
+
+        elif 'stop' in command:
+            if is_engine1:
+                thr_event1.set()
+                que1.put(command)
+            else:
+                thr_event2.set()
+                que2.put(command)
+
+        elif 'setoption ' in command:
+            if is_engine1:
+                que1.put(command)
+                que2.put(command)
+            else:
+                que1.put(command)
+                que2.put(command)
 
         else:
-            print(f'info string command "{command}" is not supported')
-            logging.info(f'info string command "{command}" is not supported')
+            print(f'info string unknown command {command}')
+            sys.stdout.flush()
+
+    engine1.quit()
+    engine2.quit()
 
 
 if __name__ == "__main__":
