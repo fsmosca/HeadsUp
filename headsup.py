@@ -21,7 +21,7 @@ import chess
 
 
 APP_NAME = 'HeadsUp'
-APP_VER = 'v1.0'
+APP_VER = 'v1.0.1'
 APP_AUTHOR = 'Ferdy'
 
 
@@ -274,24 +274,30 @@ def main():
 
     engine1_file, engine2_file, is_logging = None, None, False
 
-    # Section name is read as uppercase, name and value as lowercase
+    # Get engine files and switch conditions from config file.
     parser = configparser.ConfigParser()
     parser.read(cfg_file)
     for section_name in parser.sections():
+        sname = section_name.lower()
         for name, value in parser.items(section_name):
-            if section_name == 'ENGINE1':
+            if sname == 'engine1':
                 if name == 'enginefile':
                     engine1_file = value
-            elif section_name == 'ENGINE2':
+                    print(f'info string set {name} to {value}')
+            elif sname == 'engine2':
                 if name == 'enginefile':
                     engine2_file = value
-            elif section_name.lower() == 'headsup option':
+                    print(f'info string set {name} to {value}')
+            elif sname == 'headsup option':
                 if name == 'piece_value_switch':
                     piece_value_switch = int(value)
+                    print(f'info string set {name} to {value}')
                 elif name == 'move_number_switch':
                     move_number_switch = int(value)
+                    print(f'info string set {name} to {value}')
                 elif name == 'log':
-                    is_logging = True if value == 'true' else False
+                    is_logging = True if value.lower() == 'true' else False
+                    print(f'info string set {name} to {value.lower()}')
 
     if is_logging:
         logging.basicConfig(
@@ -312,21 +318,22 @@ def main():
     engine2 = ChessAI(engine2_file)
     name2 = engine2.name()
 
-    # Set engine options
+    # Set engine options.
     parser = configparser.ConfigParser()
     parser.read(cfg_file)
     for section_name in parser.sections():
+        sname = section_name.lower()
         for name, value in parser.items(section_name):
-            if section_name == 'ENGINE1':
+            if sname == 'engine1':
                 if name in [opt.lower() for opt in engine1.option]:
                     engine1.setoption(f'setoption name {name} value {value}')
-                    logging.info(f'setoption name {name} '
-                                 f'value {value} for {name1}')
-            elif section_name == 'ENGINE2':
+                    print(f'info string setoption name {name} '
+                          f'value {value} for {name1}')
+            elif sname == 'engine2':
                 if name in [opt.lower() for opt in engine2.option]:
                     engine2.setoption(f'setoption name {name} value {value}')
-                    logging.info(f'setoption name {name} '
-                                 f'value {value} for {name2}')
+                    print(f'info string setoption name {name} '
+                          f'value {value} for {name2}')
 
     que1 = queue.Queue()
     thr_event1 = threading.Event()
