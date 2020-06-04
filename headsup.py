@@ -21,7 +21,7 @@ import chess
 
 
 APP_NAME = 'HeadsUp'
-APP_VER = 'v1.0.1'
+APP_VER = 'v1.0.2'
 APP_AUTHOR = 'Ferdy'
 
 
@@ -225,8 +225,7 @@ def engine_loop(engine, name, thr_event, que):
             engine.go_ponder(command, thr_event)
             logging.info(f'{name} received {command}')
 
-        elif (command.startswith('go movetime ')
-              or command.startswith('go wtime ')):
+        elif command.startswith('go '):
             engine.go(command)
             logging.info(f'{name} received {command}')
 
@@ -436,8 +435,7 @@ def main():
                 thr_event2.clear()
                 que2.put(command)
 
-        elif (command.startswith('go movetime ')
-              or command.startswith('go wtime')):
+        elif command.startswith('go '):
             if is_engine1:
                 thr_event1.clear()
                 que1.put(command)
