@@ -1,5 +1,5 @@
 # HeadsUp
-A uci chess engine adapter that can combine 2 engines and play as one. First engine may play in the middle and the other engine may continue to play for the rest of the game.
+A uci chess engine adapter that can combine 2 engines and play as one. First engine may play in the middle and the other engine may continue to play for the rest of the game. The switch from engine1 to engine2 and vice versa can be controlled by move number and/or total piece value remaining on the board.
 
 ### A. Create a uci engine from 2 actual uci chess engines
 
