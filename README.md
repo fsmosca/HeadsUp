@@ -32,17 +32,8 @@ A uci chess engine adapter that can combine 2 engines and play as one. First eng
 ### C. Limitations
 * Can only use uci engines
 
-### D. An experiment to see if an NN engine can quickly see the best move than an AB engine.
-A 100 game match from 50 starting positions (color reversed) at fast TC of 15s+0.1s ponder off between HeadsUp and Stockfish 11.
-HeadsUp is composed of Lc0 v0.25.1 blas as engine1 to handle moves from 1 to 12. Then Stockfish 11 will handle from move 13 as engine2.  
-Result:
-```
-Score of HeadsUp v1.0 vs Stockfish 11: 28 - 16 - 56  [0.560] 100
-...      HeadsUp v1.0 playing White: 17 - 7 - 26  [0.600] 50
-...      HeadsUp v1.0 playing Black: 11 - 9 - 30  [0.520] 50
-...      White vs Black: 26 - 18 - 56  [0.540] 100
-Elo difference: 41.9 +/- 45.3, LOS: 96.5 %, DrawRatio: 56.0 %
-```
+### D. Sample match
+Pondering play at TC 60s+0.1s between [HeadsUp and Stockfish](https://github.com/fsmosca/HeadsUp/wiki/HeadsUp-vs-Stockfish)
 
 
 ### E. Credits
