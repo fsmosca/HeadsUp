@@ -13,8 +13,8 @@ A uci chess engine adapter that can combine 2 engines and play as one. First eng
 * Install headsup.bat as a uci engine in cutechess GUI or Arena GUI
 
 ##### 2. Using headsup.exe
-* Download headsup.exe
-* Modify headsup.cfg
+* Download [headsup.exe](../../releases)
+* Modify headsup.cfg that can be found in this repo.
 * Put headsup.cfg and headsup.exe in the same folder
 * Install headsup.exe as a uci engine on the following tested GUI.  
     * Cutechess
