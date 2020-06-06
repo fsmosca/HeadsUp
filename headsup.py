@@ -21,8 +21,12 @@ import chess
 
 
 APP_NAME = 'HeadsUp'
-APP_VER = 'v1.0.2'
+APP_VER = 'v1.0.3'
 APP_AUTHOR = 'Ferdy'
+
+
+PIECE_VALUE_SWITCH = 62
+MOVE_NUMBER_SWITCH = 0
 
 
 class ChessAI:
@@ -157,6 +161,41 @@ class ChessAI:
         self.__engine__.stdin.write(f'{command}\n')
 
 
+def get_config_info(cfg_file):
+    """
+    Read cfg file and return engine1 and engine2 file paths,
+    piece value and move number switches and logging.
+    """
+    e1, e2, pvs, mns, islog = (None, None, PIECE_VALUE_SWITCH,
+                               MOVE_NUMBER_SWITCH, False)
+
+    parser = configparser.ConfigParser()
+    parser.read(cfg_file)
+    for section_name in parser.sections():
+        sname = section_name.lower()
+        for name, value in parser.items(section_name):
+            if sname == 'engine1':
+                if name == 'enginefile':
+                    e1 = value
+                    print(f'info string set {name} to {value}')
+            elif sname == 'engine2':
+                if name == 'enginefile':
+                    e2 = value
+                    print(f'info string set {name} to {value}')
+            elif sname == 'headsup option':
+                if name == 'piece_value_switch':
+                    pvs = int(value)
+                    print(f'info string set {name} to {value}')
+                elif name == 'move_number_switch':
+                    mns = int(value)
+                    print(f'info string set {name} to {value}')
+                elif name == 'log':
+                    islog = True if value.lower() == 'true' else False
+                    print(f'info string set {name} to {value.lower()}')
+
+    return e1, e2, pvs, mns, islog
+
+
 def get_piece_value(board):
     """
     Returns total piece value on the board except kings and pawns.
@@ -260,10 +299,6 @@ def engine_loop(engine, name, thr_event, que):
 def main():
     print(f'info string {APP_NAME} {APP_VER} a uci engine adapter.')
     cfg_file = 'headsup.cfg'
-    board = chess.Board()
-
-    piece_value_switch = 62  # Use engine2
-    move_number_switch = 0  # Use engine2
 
     # Check headsup.cfg in the same dir with headsup.py or headsup.exe
     config_file = Path(cfg_file)
@@ -271,32 +306,9 @@ def main():
         print(f'{cfg_file} file is required to run {APP_NAME}! Exiting ...')
         sys.exit(1)
 
-    engine1_file, engine2_file, is_logging = None, None, False
-
     # Get engine files and switch conditions from config file.
-    parser = configparser.ConfigParser()
-    parser.read(cfg_file)
-    for section_name in parser.sections():
-        sname = section_name.lower()
-        for name, value in parser.items(section_name):
-            if sname == 'engine1':
-                if name == 'enginefile':
-                    engine1_file = value
-                    print(f'info string set {name} to {value}')
-            elif sname == 'engine2':
-                if name == 'enginefile':
-                    engine2_file = value
-                    print(f'info string set {name} to {value}')
-            elif sname == 'headsup option':
-                if name == 'piece_value_switch':
-                    piece_value_switch = int(value)
-                    print(f'info string set {name} to {value}')
-                elif name == 'move_number_switch':
-                    move_number_switch = int(value)
-                    print(f'info string set {name} to {value}')
-                elif name == 'log':
-                    is_logging = True if value.lower() == 'true' else False
-                    print(f'info string set {name} to {value.lower()}')
+    (engine1_file, engine2_file, piece_value_switch,
+     move_number_switch, is_logging) = get_config_info(cfg_file)
 
     if is_logging:
         logging.basicConfig(
