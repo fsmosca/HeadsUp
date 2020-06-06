@@ -22,7 +22,8 @@ A uci chess engine adapter that can combine 2 engines and play as one. First eng
     * Banksia
     * Winboard
     * HIARCS Chess Explorer
-    * Python Easy Chess
+    * [Python Easy Chess GUI](https://github.com/fsmosca/Python-Easy-Chess-GUI)
+    * Fritz
     
 ### B. What it can do
 * You can play against it
